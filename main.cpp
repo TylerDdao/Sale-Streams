@@ -1,43 +1,66 @@
-#include <iostream>
-#include <raylib.h>
+/*******************************************************************************************
+*
+*   raylib [core] example - Basic window
+*
+*   Welcome to raylib!
+*
+*   To test examples, just press F6 and execute raylib_compile_execute script
+*   Note that compiled executable is placed in the same folder as .c file
+*
+*   You can find all basic examples on C:\raylib\raylib\examples folder or
+*   raylib official webpage: www.raylib.com
+*
+*   Enjoy using raylib. :)
+*
+*   Example originally created with raylib 1.0, last time updated with raylib 1.0
+*
+*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
+*   BSD-like license that allows static linking with closed source software
+*
+*   Copyright (c) 2013-2024 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
 
-using namespace std;
+#include "raylib.h"
+#include "Screen.h"
 
-int main () {
+    // Rectangle config = {251, 87,298, 61};
+    // Rectangle sale = {251, 158, 298, 61};
+    // Rectangle report = {251, 229, 298, 61};
+    // Rectangle reset = {251, 300, 298, 61};
+    // Rectangle quit = {251, 371, 298, 61};
 
+//------------------------------------------------------------------------------------
+// Program main entry point
+//------------------------------------------------------------------------------------
+
+int main(void)
+{
+    // Initialization
+    //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
-    const int screenHeight = 600;
-    int ball_x = 100;
-    int ball_y = 100;
-    int ball_speed_x = 5;
-    int ball_speed_y = 5;
-    int ball_radius = 15;
-
-    cout << "Hello World" << endl;
-
-    InitWindow(screenWidth, screenHeight, "My first RAYLIB program!");
-    SetTargetFPS(60);
-
-    while (WindowShouldClose() == false){
+    const int screenHeight = 450;
+    // typedef enum Screen {INTRO = 0, HOME} SCREEN;
+    InitWindow(screenWidth, screenHeight, "Screen");
+    int screen =0;
+    bool running = true;
+    string name, id; 
+    float price;
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    InputBox i1;
+    //--------------------------------------------------------------------------------------
+    // Main game loop
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        // Rectangle rec{95, 109, 611, 61};
         BeginDrawing();
-        ClearBackground(BLACK);
-        ball_x += ball_speed_x;
-        ball_y += ball_speed_y;
-
-        if(ball_x + ball_radius >= screenWidth  || ball_x - ball_radius <= 0)
-        {
-            ball_speed_x *= -1;
-        }
-
-        if(ball_y + ball_radius >= screenHeight  || ball_y - ball_radius <= 0)
-        {
-            ball_speed_y *= -1;
-        }
-
-        DrawCircle(ball_x,ball_y,ball_radius, WHITE);
+        ClearBackground(RAYWHITE);
+        CAdd(screen, name, id, price);
         EndDrawing();
     }
-
+    // cout << name<<endl;
+    // cout << id<<endl;
+    // cout << price<<endl;
     CloseWindow();
     return 0;
 }
