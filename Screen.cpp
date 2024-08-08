@@ -1,7 +1,5 @@
 #include "Screen.h"
 
-// Rectangle = {x, y, w, h}
-
 void HomeScreen(int& screen){
         Rectangle config = {251, 87,298, 61};
         Rectangle sale = {251, 158, 298, 61};
@@ -9,24 +7,25 @@ void HomeScreen(int& screen){
         Rectangle reset = {251, 300, 298, 61};
         Rectangle quit = {251, 371, 298, 61};
         Vector2 mousePosition = GetMousePosition();
+        DrawCurrentTime(5, 5, H2, BLACK);
         DrawTextXCenter("Welcome",50, H2, BLACK);
 
         DrawButtonWithText(config, WHITE, BLACK, "Config Mode", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, config)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            screen = Config;
+            screen = ConfigMain;
             }
         }
         DrawButtonWithText(sale, WHITE, BLACK, "Sale Mode", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, sale)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            screen = Sale;
+            screen = SaleMain;
             }
         }
         DrawButtonWithText(report, WHITE, BLACK, "Report Mode", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, report)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            screen = Report;
+            screen = ReportMain;
             }
         }
         DrawButtonWithText(reset, RED, BLACK, "Reset All", H2, BLACK);
@@ -67,7 +66,7 @@ void ConfigScreen(int& screen){
         DrawButtonWithText(remove, WHITE, BLACK, "Remove Item", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, remove)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                screen = C_Delete;
+                screen = C_Remove;
             }
         }
         DrawButtonWithText(edit, WHITE, BLACK, "Edit Item", H2, BLACK);
@@ -191,10 +190,11 @@ void ReportScreen(int& screen){
         }
 }
 
-void CAdd(int &screen, string& name, string& id, float& price)
+void CAdd(int &screen, string& name, string& id, float& price, bool& isSaved)
 {
+    static float timer = 0;
     Vector2 mouse = GetMousePosition();
-    bool isSaved = false;
+    isSaved = false;
     bool isCancelled = false;
     Rectangle saveButton = {408, 367, 298, 61};
     Rectangle cancelButton = {95, 367, 298, 61};
@@ -236,11 +236,11 @@ void CAdd(int &screen, string& name, string& id, float& price)
         itemPriceInput.isActive = false;
         itemPriceInput.hasDecimalPoint = false;
         if(isCancelled){
-            screen = Config;
+            screen = ConfigMain;
         }
         else if(isSaved){
             timer = GetTime();
-            screen = Config;
+            screen = ConfigMain;
         }
     }
     if(timer>0 && GetTime() - timer < 2){
@@ -251,7 +251,7 @@ void CAdd(int &screen, string& name, string& id, float& price)
         timer = 0;
     }
 }
-void CRemove(int& screen, string& id)
+void CRemove(int& screen, string& id, Menu& menu, Item* itemPtr)
 {
     Vector2 mouse = GetMousePosition();
     Rectangle idBox = {95, 165, 611, 61};
@@ -259,11 +259,11 @@ void CRemove(int& screen, string& id)
     Rectangle searchButton = {408, 251, 298, 61};
     bool isCancel = false;
     bool isSearch = false;
-
     DrawTextXCenter("Config Mode -> Remove Item", 50, H2, BLACK);
     DrawInputBox(idBox, "Item ID", id, MAX_ID, itemIdInput);
     DrawButtonWithText(cancelButton, WHITE, BLACK, "Cancel", H2, BLACK);
     DrawButtonWithText(searchButton, WHITE, BLACK, "Search", H2, BLACK);
+    itemPtr = menu.SearchItem(id);
     if(CheckCollisionPointRec(mouse, cancelButton)){
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             isCancel = true;
@@ -279,15 +279,20 @@ void CRemove(int& screen, string& id)
         itemIdInput.textLength = 0;
         itemIdInput.isActive = false;
         if(isCancel){
-            screen = Config;
+            screen = ConfigMain;
         }
         else if(isSearch){
-            //Search screen
+            if(itemPtr != nullptr){
+                screen = C_Remove_Confirm;
+            }
+            else if(itemPtr == nullptr){
+                screen = C_Not_Found;
+            }
         }
     }
 }
 
-void CSearchDisplay(int& screen, string name, string id, float price)
+void CRemoveConfirm(int& screen, string name, string id, float price, bool& isRemoved)
 {
     Vector2 mouse = GetMousePosition();
 
@@ -298,7 +303,7 @@ void CSearchDisplay(int& screen, string name, string id, float price)
     Rectangle searchButton = {408, 367, 298, 61};
     Rectangle cancelButton = {95, 367, 298, 61};
     bool isCancelled = false;
-    bool isRemoved = false;
+    isRemoved = false;
 
     DrawTextXCenter(TextFormat("Config Mode: Remove Item: %s", id.c_str()), 50, H2, BLACK);
 
@@ -324,10 +329,30 @@ void CSearchDisplay(int& screen, string name, string id, float price)
         itemIdInput.textLength = 0;
         itemIdInput.isActive = false;
         if(isCancelled){
-            screen = Config;
+            screen = ConfigMain;
         }
-        else if(isCancelled){
-            //Search screen
+        else if(isRemoved){
+            screen = ConfigMain;
         }
+    }
+}
+
+void CNotFount(int &screen)
+{
+    bool isReturned = false;
+    Rectangle noFound = {251, 149, 298, 61};
+    Rectangle returnButton = {251, 240, 298, 61};
+    Vector2 mousePosition = GetMousePosition();
+    DrawTextXCenter("Config Mode", 50, H2, BLACK);
+    DrawButtonWithText(noFound, RED, BLACK, "No Item Found", H2, BLACK);
+    DrawButtonWithText(returnButton, WHITE, BLACK, "Return", H2, BLACK);
+    if(CheckCollisionPointRec(mousePosition, returnButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            isReturned = true;
+        }
+    }
+
+    if(isReturned){
+        screen = ConfigMain;
     }
 }

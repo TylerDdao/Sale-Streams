@@ -9,8 +9,6 @@
 		"**/*.exe": true,
 	},
 	"files.associations": {
-		"iostream": "cpp",
-		"algorithm": "cpp",
 		"array": "cpp",
 		"atomic": "cpp",
 		"bit": "cpp",
@@ -32,6 +30,7 @@
 		"unordered_map": "cpp",
 		"vector": "cpp",
 		"exception": "cpp",
+		"algorithm": "cpp",
 		"functional": "cpp",
 		"iterator": "cpp",
 		"memory": "cpp",
@@ -46,6 +45,7 @@
 		"utility": "cpp",
 		"initializer_list": "cpp",
 		"iosfwd": "cpp",
+		"iostream": "cpp",
 		"istream": "cpp",
 		"limits": "cpp",
 		"new": "cpp",
@@ -54,6 +54,9 @@
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
 		"cinttypes": "cpp",
-		"typeinfo": "cpp"
+		"typeinfo": "cpp",
+		"*.m": "cpp",
+		"sstream": "cpp",
+		"ctime": "cpp"
 	}
 }

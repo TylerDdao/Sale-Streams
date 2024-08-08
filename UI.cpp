@@ -1,5 +1,7 @@
 #include "UI.h"
 
+const char* month[] = { "", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+
 void DrawTextCenter(const char* text, float fontSize, Color textColor)
 {
     Vector2 textPosition = MeasureTextEx(GetFontDefault(), text, fontSize, 1);
@@ -9,6 +11,11 @@ void DrawTextCenter(const char* text, float fontSize, Color textColor)
 void DrawTextXCenter(const char* text, int posY, float fontSize, Color textColor){
     Vector2 textPosition = MeasureTextEx(GetFontDefault(), text, fontSize, 1);
     DrawText(text, (GetScreenWidth()/2) - (textPosition.x/2),posY, fontSize, textColor);
+}
+
+void DrawCurrentTime(int posX, int posY, float fontSize, Color textColor)
+{
+    DrawText(TextFormat("%s/%d/%d - %s", month[ExtractMonth(GetCurrentDateTime())], ExtractDay(GetCurrentDateTime()), ExtractYear(GetCurrentDateTime()), ExtractTime(GetCurrentDateTime()).c_str()), posX, posY, fontSize, textColor);
 }
 
 void DrawButton(int posX, int posY, int w, int h, int boderSize, Color bColor, Color lColor)
@@ -223,4 +230,72 @@ bool is_number_or_decimal(const char* str) {
     }
 
     return true;
+}
+
+void UIStart(int& current, bool& running, Menu& menu, Item* itemPtr)
+{
+        // Rectangle rec{95, 109, 611, 61};
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        switch (current)
+        {
+        case Home:{
+            HomeScreen(current);
+            break;
+        }
+        case ConfigMain:{
+            ConfigScreen(current);
+            break;
+        }
+        case C_Add:{
+            string itemName;
+            string itemId;
+            float itemPrice;
+            bool isSaved;
+            CAdd(current, itemName, itemId, itemPrice, isSaved);
+            if(isSaved){
+                menu.AddItem(itemName, itemId, itemPrice);
+            }
+            break;
+        }
+        case C_Remove:{
+            string id;
+            CRemove(current, id, menu, itemPtr);
+            break;
+        }
+        case C_Remove_Confirm:{
+            bool isRemoved;
+            string name = itemPtr->GetName();
+            string id = itemPtr->GetId();
+            float price = itemPtr->GetPrice();
+            CRemoveConfirm(current,name, id, price, isRemoved);
+            if(isRemoved){
+            menu.RemoveItem(id);
+            itemPtr = nullptr;
+            }
+        }
+        case C_Not_Found:{
+            CNotFount(current);
+            break;
+        }
+        //Config subscreen
+        case SaleMain:{
+            SaleScreen(current);
+            break;
+        }
+        //Sale subscreen
+        case ReportMain:{
+            ReportScreen(current);
+            break;
+        }
+        //Report subscreen
+        
+        case Quit:{
+            running = false;
+            break;
+        }
+        default:
+            break;
+        }
+        EndDrawing();
 }
