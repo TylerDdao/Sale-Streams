@@ -61,25 +61,25 @@ void ConfigScreen(int& screen){
         DrawButtonWithText(add, WHITE, BLACK, "Add Item", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, add)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-
+                screen = C_Add;
             }
         }
         DrawButtonWithText(remove, WHITE, BLACK, "Remove Item", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, remove)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            
+                screen = C_Delete;
             }
         }
         DrawButtonWithText(edit, WHITE, BLACK, "Edit Item", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, edit)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            
+                screen = C_Edit;
             }
         }
         DrawButtonWithText(search, WHITE, BLACK, "Search Item", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, search)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            
+                screen = C_Search;
             }
         }
         DrawButtonWithText(print, WHITE, BLACK, "Print all Items", H2, BLACK);
@@ -191,34 +191,11 @@ void ReportScreen(int& screen){
         }
 }
 
-void MainScreens(int& screen, bool& running){
-    switch (screen)
-        {
-        case Home:
-            HomeScreen(screen);
-            break;
-        case Config:
-            ConfigScreen(screen);
-            break;
-        case Sale:
-            SaleScreen(screen);
-            break;
-        case Report:
-            ReportScreen(screen);
-            break;
-        case Quit:
-            running = false;
-            break;
-        default:
-            break;
-        }
-}
-
 void CAdd(int &screen, string& name, string& id, float& price)
 {
     Vector2 mouse = GetMousePosition();
     bool isSaved = false;
-    bool isCancel = false;
+    bool isCancelled = false;
     Rectangle saveButton = {408, 367, 298, 61};
     Rectangle cancelButton = {95, 367, 298, 61};
 
@@ -226,21 +203,17 @@ void CAdd(int &screen, string& name, string& id, float& price)
     Rectangle idBox = {95, 195, 611, 61};
     Rectangle priceBox = {95, 281, 611, 61};
 
-    static InputBox itemNameInput;
-    static InputBox itemIdInput;
-    static InputFloatBox itemPriceInput;
     DrawTextXCenter("Config Mode -> Add Item",50, H2, BLACK);
 
     DrawInputBox(nameBox, "Item Name", name, 25, itemNameInput);
-    DrawInputBox(idBox, "Item ID", id, 25, itemIdInput);
+    DrawInputBox(idBox, "Item ID", id, MAX_ID, itemIdInput);
     DrawFloatInputBox(priceBox, "Price", price, itemPriceInput);
 
     DrawButtonWithText(cancelButton, WHITE, BLACK, "Cancel", H2, BLACK);
-    DrawButtonWithText(saveButton, GREEN, BLACK, "Confirm", H2, BLACK);
 
     if(CheckCollisionPointRec(mouse, cancelButton)){
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            isCancel = true;
+            isCancelled = true;
         }
     }
         if(CheckCollisionPointRec(mouse, saveButton)){
@@ -249,7 +222,7 @@ void CAdd(int &screen, string& name, string& id, float& price)
         }
     }
 
-    if(isCancel || isSaved){
+    if(isCancelled || isSaved){
         itemNameInput.inputText[0] = {'\0'};
         itemNameInput.textLength = 0;
         itemNameInput.isActive = false;
@@ -262,168 +235,99 @@ void CAdd(int &screen, string& name, string& id, float& price)
         itemPriceInput.textLength = 0;
         itemPriceInput.isActive = false;
         itemPriceInput.hasDecimalPoint = false;
-        if(isCancel){
-            //cancel process
+        if(isCancelled){
+            screen = Config;
         }
         else if(isSaved){
-            //save process
+            timer = GetTime();
+            screen = Config;
+        }
+    }
+    if(timer>0 && GetTime() - timer < 2){
+        DrawButtonWithText(saveButton, GREEN, BLACK, "Saved", H2, BLACK);
+    }
+    else{
+        DrawButtonWithText(saveButton, GREEN, BLACK, "Confirm", H2, BLACK);
+        timer = 0;
+    }
+}
+void CRemove(int& screen, string& id)
+{
+    Vector2 mouse = GetMousePosition();
+    Rectangle idBox = {95, 165, 611, 61};
+    Rectangle cancelButton = {95, 251, 298, 61};
+    Rectangle searchButton = {408, 251, 298, 61};
+    bool isCancel = false;
+    bool isSearch = false;
+
+    DrawTextXCenter("Config Mode -> Remove Item", 50, H2, BLACK);
+    DrawInputBox(idBox, "Item ID", id, MAX_ID, itemIdInput);
+    DrawButtonWithText(cancelButton, WHITE, BLACK, "Cancel", H2, BLACK);
+    DrawButtonWithText(searchButton, WHITE, BLACK, "Search", H2, BLACK);
+    if(CheckCollisionPointRec(mouse, cancelButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            isCancel = true;
+        }
+    }
+    if(CheckCollisionPointRec(mouse, searchButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            isSearch = true;
+        }
+    }
+    if(isCancel || isSearch){
+        itemIdInput.inputText[0] = {'\0'};
+        itemIdInput.textLength = 0;
+        itemIdInput.isActive = false;
+        if(isCancel){
+            screen = Config;
+        }
+        else if(isSearch){
+            //Search screen
         }
     }
 }
 
+void CSearchDisplay(int& screen, string name, string id, float price)
+{
+    Vector2 mouse = GetMousePosition();
 
-// void StartUpScreen(){
-//    // Initialization
-//     //--------------------------------------------------------------------------------------
-//     const int screenWidth = 800;
-//     const int screenHeight = 450;
+    Rectangle nameBox = {95, 109, 611, 61};
+    Rectangle idBox = {95, 195, 611, 61};
+    Rectangle priceBox = {95, 281, 611, 61};
 
-//     int logoPositionX = screenWidth/2 - 128;
-//     int logoPositionY = screenHeight/2 - 128;
+    Rectangle searchButton = {408, 367, 298, 61};
+    Rectangle cancelButton = {95, 367, 298, 61};
+    bool isCancelled = false;
+    bool isRemoved = false;
 
-//     int framesCounter = 0;
-//     int lettersCount = 0;
+    DrawTextXCenter(TextFormat("Config Mode: Remove Item: %s", id.c_str()), 50, H2, BLACK);
 
-//     int topSideRecWidth = 16;
-//     int leftSideRecHeight = 16;
+    DrawDisplayBox(nameBox, WHITE, BLACK, TextFormat("%s", name.c_str()), H2, BLACK, "Name");
+    DrawDisplayBox(idBox, WHITE, BLACK, TextFormat("%s", id.c_str()), H2, BLACK, "ID");
+    DrawDisplayBox(priceBox, WHITE, BLACK, TextFormat("$%.3f", price), H2, BLACK, "Price");
 
-//     int bottomSideRecWidth = 16;
-//     int rightSideRecHeight = 16;
+    DrawButtonWithText(cancelButton, WHITE, BLACK, "Cancel", H2, BLACK);
+    DrawButtonWithText(searchButton, RED, BLACK, "Remove", H2, BLACK);
 
-//     int state = 0;                  // Tracking animation states (State Machine)
-//     float alpha = 1.0f;             // Useful for fading
-
-//     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-//     //--------------------------------------------------------------------------------------
-
-//     // Main game loop
-//     while (state != 5)    // Detect window close button or ESC key
-//     {
-//         // Update
-//         //----------------------------------------------------------------------------------
-//         if (state == 0)                 // State 0: Small box blinking
-//         {
-//             framesCounter++;
-
-//             if (framesCounter == 120)
-//             {
-//                 state = 1;
-//                 framesCounter = 0;      // Reset counter... will be used later...
-//             }
-//         }
-//         else if (state == 1)            // State 1: Top and left bars growing
-//         {
-//             topSideRecWidth += 4;
-//             leftSideRecHeight += 4;
-
-//             if (topSideRecWidth == 256) state = 2;
-//         }
-//         else if (state == 2)            // State 2: Bottom and right bars growing
-//         {
-//             bottomSideRecWidth += 4;
-//             rightSideRecHeight += 4;
-
-//             if (bottomSideRecWidth == 256) state = 3;
-//         }
-//         else if (state == 3)            // State 3: Letters appearing (one by one)
-//         {
-//             framesCounter++;
-
-//             if (framesCounter/12)       // Every 12 frames, one more letter!
-//             {
-//                 lettersCount++;
-//                 framesCounter = 0;
-//             }
-
-//             if(lettersCount == 12){
-//                 framesCounter = 0;
-//                 state = 4;
-//             }
-//         }
-//         else if (state == 4)            // State 4: Reset and Replay
-//         {
-//             framesCounter++;
-//             if(framesCounter > 120){
-//             alpha -= 0.02f;
-
-//             if (alpha <= -1.0f)
-//             {
-//                     alpha = 0.0f;
-//                     state = 5;
-//             }
-//             }
-//         }
-//         //----------------------------------------------------------------------------------
-
-//         // Draw
-//         //----------------------------------------------------------------------------------
-//         BeginDrawing();
-
-//             ClearBackground(RAYWHITE);
-
-//             if (state == 0)
-//             {
-//                 if ((framesCounter/15)%2) DrawRectangle(logoPositionX, logoPositionY, 16, 16, BLACK);
-//             }
-//             else if (state == 1)
-//             {
-//                 DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, BLACK);
-//                 DrawRectangle(logoPositionX, logoPositionY, 16, leftSideRecHeight, BLACK);
-//             }
-//             else if (state == 2)
-//             {
-//                 DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, BLACK);
-//                 DrawRectangle(logoPositionX, logoPositionY, 16, leftSideRecHeight, BLACK);
-
-//                 DrawRectangle(logoPositionX + 240, logoPositionY, 16, rightSideRecHeight, BLACK);
-//                 DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, BLACK);
-//             }
-//             else if (state == 3)
-//             {
-//                 DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, Fade(BLACK, alpha));
-//                 DrawRectangle(logoPositionX, logoPositionY + 16, 16, leftSideRecHeight - 32, Fade(BLACK, alpha));
-
-//                 DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32, Fade(BLACK, alpha));
-//                 DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, Fade(BLACK, alpha));
-
-//                 DrawRectangle(GetScreenWidth()/2 - 112, GetScreenHeight()/2 - 112, 224, 224, Fade(RAYWHITE, alpha));
-
-//                 Vector2 textPos = MeasureTextEx(GetFontDefault(), "Sale Stream", 30, 2);
-//                 DrawText(TextSubtext("Sale Stream", 0, lettersCount), (GetScreenWidth()/2) - (textPos.x/2) - 2, ((GetScreenHeight()/2) - (textPos.y/2)), 30, Fade(BLACK, alpha));
-//             }
-//             else if (state == 4)
-//             {
-//                 DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, Fade(BLACK, alpha));
-//                 DrawRectangle(logoPositionX, logoPositionY + 16, 16, leftSideRecHeight - 32, Fade(BLACK, alpha));
-
-//                 DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32, Fade(BLACK, alpha));
-//                 DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, Fade(BLACK, alpha));
-
-//                 DrawRectangle(GetScreenWidth()/2 - 112, GetScreenHeight()/2 - 112, 224, 224, Fade(RAYWHITE, alpha));
-
-//                 Vector2 textPos = MeasureTextEx(GetFontDefault(), "Sale Stream", 30, 2);
-//                 DrawText(TextSubtext("Sale Stream", 0, lettersCount), (GetScreenWidth()/2) - (textPos.x/2) - 2, ((GetScreenHeight()/2) - (textPos.y/2)), 30, Fade(BLACK, alpha));
-//             }
-
-//         EndDrawing();
-//         //----------------------------------------------------------------------------------
-//     }
-// }
-
-// void HomeScreen(){
-//     while(true){
-//         BeginDrawing();
-//         ClearBackground(RAYWHITE);
-//         DrawText("Welcome", 359, 50, 20, BLACK);
-//         DrawButtonWithText(251,87,298, 61, 1, BLACK, WHITE, "Config Mode", 20, BLACK);
-
-//         DrawButtonWithText(251,158,298, 61, 1, BLACK, WHITE, "Sale Mode", 20, BLACK);
-
-//         DrawButtonWithText(251,229,298, 61, 1, BLACK, WHITE, "Report Mode", 20, BLACK);
-
-//         DrawButtonWithText(251,300,298, 61, 1, BLACK, RED, "Reset", 20, BLACK);
-
-//         DrawButtonWithText(251,371,298, 61, 1, BLACK, WHITE, "Save & Quit", 20, BLACK);
-//         EndDrawing();
-//     }
-// }
+    if(CheckCollisionPointRec(mouse, cancelButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            isCancelled = true;
+        }
+    }
+    if(CheckCollisionPointRec(mouse, searchButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            isRemoved = true;
+        }
+    }
+    if(isCancelled || isRemoved){
+        itemIdInput.inputText[0] = {'\0'};
+        itemIdInput.textLength = 0;
+        itemIdInput.isActive = false;
+        if(isCancelled){
+            screen = Config;
+        }
+        else if(isCancelled){
+            //Search screen
+        }
+    }
+}

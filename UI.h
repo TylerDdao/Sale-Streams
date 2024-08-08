@@ -22,8 +22,8 @@ void DrawTextCenter(const char* text, float fontSize, Color textColor);
 void DrawTextXCenter(const char* text, int posY, float fontSize, Color textColor);
 
 void DrawButton(int posX, int posY, int w, int h, int boderSize, Color bColor, Color lColor);
-void DrawButtonWithText(int posX, int posY, int w, int h, int boderSize, Color bColor, Color lColor,const char* text, float fontSize, Color textColor);
 void DrawButtonWithText(Rectangle rec, Color bColor, Color lColor,const char* text, float fontSize, Color textColor);
+void DrawDisplayBox(Rectangle rec, Color bColor, Color lColor,const char* content, float fontSize, Color textColor, const char* title);
 
 void DrawInputBox(Rectangle rec, const char* boxTitle, string& savedText, int MaxChars, InputBox& inputBox);
 void DrawIntInputBox(Rectangle rec,const char* boxTitle, int& savedNumb, int MaxChars, InputBox& inputBox);

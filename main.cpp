@@ -42,20 +42,57 @@ int main(void)
     const int screenHeight = 450;
     // typedef enum Screen {INTRO = 0, HOME} SCREEN;
     InitWindow(screenWidth, screenHeight, "Screen");
-    int screen =0;
     bool running = true;
-    string name, id; 
-    float price;
+
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    InputBox i1;
     //--------------------------------------------------------------------------------------
     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    int current = Home;
+    while (running)    // Detect window close button or ESC key
     {
         // Rectangle rec{95, 109, 611, 61};
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        CAdd(screen, name, id, price);
+        switch (current)
+        {
+        case Home:{
+            HomeScreen(current);
+            break;
+        }
+        case Config:{
+            ConfigScreen(current);
+            break;
+        }
+        case C_Add:{
+            string itemName;
+            string itemId;
+            float itemPrice;
+            CAdd(current, itemName, itemId, itemPrice);
+            break;
+        }
+        case C_Add_Confirm:{
+            //Confirm screen
+            break;
+        }
+        //Config subscreen
+        case Sale:{
+            SaleScreen(current);
+            break;
+        }
+        //Sale subscreen
+        case Report:{
+            ReportScreen(current);
+            break;
+        }
+        //Report subscreen
+        
+        case Quit:{
+            running = false;
+            break;
+        }
+        default:
+            break;
+        }
         EndDrawing();
     }
     // cout << name<<endl;

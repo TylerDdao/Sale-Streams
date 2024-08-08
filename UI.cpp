@@ -32,6 +32,16 @@ void DrawButtonWithText(Rectangle rec, Color bColor, Color lColor,const char* te
     DrawText(text, (rec.x + (rec.width - textDimension.x)/2),(rec.y + (rec.height-textDimension.y)/2), fontSize,  textColor);
 }
 
+void DrawDisplayBox(Rectangle rec, Color bColor, Color lColor, const char *content, float fontSize, Color textColor, const char *title)
+{
+    DrawRectangleRec(rec, bColor);
+    DrawRectangleLines(rec.x, rec.y, rec.width, rec.height, lColor);
+    Vector2 contentDimension = MeasureTextEx(GetFontDefault(), content, fontSize, 1);
+    Vector2 titleDimension = MeasureTextEx(GetFontDefault(), title, fontSize, 1);
+    DrawText(content, (rec.x + (rec.width - contentDimension.x)/2),(rec.y + (rec.height-contentDimension.y)/2), fontSize,  textColor);
+    DrawText(title, rec.x, rec.y - titleDimension.y, 20, BLACK);
+}
+
 void DrawInputBox(Rectangle rec, const char* boxTitle, string& savedText, int MaxChars, InputBox& inputBox) {
     Vector2 textSize = MeasureTextEx(GetFontDefault(), boxTitle, 20, 1);
     Vector2 numberSize = MeasureTextEx(GetFontDefault(), TextFormat("%d/%d", MaxChars - inputBox.textLength, MaxChars), 20, 1);
