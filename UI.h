@@ -4,26 +4,11 @@
 #include "TimeModule.h"
 #include "Screen.h"
 #include "Menu.h"
-#define MAX_CHARS 50
-#define MAX_ID 10
+#include "shared.h"
 
 using namespace std;
 
-struct InputBox {
-    char inputText[MAX_CHARS + 1] = {0};
-    int textLength = 0;
-    bool isActive = false;
-};
-
-struct InputFloatBox {
-    char inputText[MAX_CHARS + 1] = {0};
-    int textLength = 0;
-    bool isActive = false;
-    bool hasDecimalPoint = false;
-};
-static InputBox itemNameInput;
-static InputBox itemIdInput;
-static InputFloatBox itemPriceInput;
+void StaticVarReset();
 
 void DrawTextCenter(const char* text, float fontSize, Color textColor);
 void DrawTextXCenter(const char* text, int posY, float fontSize, Color textColor);
@@ -41,4 +26,4 @@ bool is_number_or_decimal(const char* str);
 
 // void HomeScreen();
 
-void UIStart(int& current, bool& running, Menu& menu, Item* itemPtr);
+void UIStart(int& current, bool& running, Menu& menu);

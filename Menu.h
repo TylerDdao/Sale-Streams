@@ -4,6 +4,7 @@
 #include <string>
 #include "Sale.h"
 #include "Item.h"
+#include "shared.h"
 using namespace std;
 
 class Menu
@@ -29,6 +30,8 @@ public:
 	void ClearSales(); //Done
 	void ClearItems(); //Done
 	void ClearMemory(); //Done
+
+	int GetTotalOfItems();
 
 	Item* item;
 	Sale* sale;

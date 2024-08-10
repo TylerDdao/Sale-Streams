@@ -41,7 +41,7 @@ int main(void)
     srand(time(NULL));
     Menu menu;
     menu.AddItem("t1", "T1", 10);
-    Item* itemPtr = nullptr;
+    menu.AddItem("t2", "T2", 2.50);
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -56,7 +56,7 @@ int main(void)
     int current = Home;
     while (running)    // Detect window close button or ESC key
     {
-        UIStart(current, running, menu, itemPtr);
+        UIStart(current, running, menu);
     }
     // cout << name<<endl;
     // cout << id<<endl;

@@ -36,7 +36,8 @@ void Menu::RemoveItem(string id)
 		return;
 	}
 	Item* ptr2 = item;
-	while (ptr2->next = ptr) {
+	while (ptr2->next == ptr) 
+	{
 		ptr2 = ptr2->next;
 	}
 	ptr2->next = ptr->next;
@@ -64,7 +65,7 @@ void Menu::EditItem(string id, string newName, string newId, float newPrice)
 int Menu::AddSale(vector<string> orders)
 {
 	float total = 0;
-	for (int i = 0; i < orders.size(); i++) {
+	for (size_t i = 0; i < orders.size(); i++) {
 		float price = GetPriceOf(orders[i]);
 		total += price;
 	}
@@ -208,3 +209,16 @@ void Menu::ClearMemory()
 	}
 }
 
+int Menu::GetTotalOfItems()
+{
+	if(item == nullptr){
+		return 0;
+	}
+	int count = 0;
+	Item* ptr = item;
+	while(ptr != nullptr){
+		count++;
+		ptr = ptr->next;
+	}
+    return count;
+}
