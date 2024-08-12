@@ -8,9 +8,9 @@ Sale::Sale()
 	this->id = 0;
 }
 
-Sale::Sale(vector<string> orders, float total)
+Sale::Sale(vector<string> orders, float total, int id)
 {
-	this->id = GenerateId();
+	this->id = id;
 	this->time = GetCurrentDateTime();
 	this->total = total;
 	ordersList = orders;

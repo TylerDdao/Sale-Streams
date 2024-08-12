@@ -17,7 +17,7 @@ public:
 	void RemoveItem(string id); //Done
 	void EditItem(string id, string newName, string newId, float newPrice); //Done
 
-	int AddSale(vector<string> orders); //Done
+	void AddSale(vector<string> orders, int id); //Done
 	void RemoveSale(int id); // Done
 	void LoadSale(vector<string> orders, string time, int id, float total); //Done
 

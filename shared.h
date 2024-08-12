@@ -7,17 +7,22 @@ using namespace std;
 #define MAX_CHARS 50
 #define MAX_ID 10
 
-struct InputBox {
+class InputBox {
+    public:
     char inputText[MAX_CHARS + 1] = {0};
     int textLength = 0;
     bool isActive = false;
+    void Clear();
 };
 
-struct InputFloatBox {
+class InputFloatBox {
+    public:
     char inputText[MAX_CHARS + 1] = {0};
     int textLength = 0;
     bool isActive = false;
     bool hasDecimalPoint = false;
+
+    void Clear();
 };
 
 static string itemName = "\0";
@@ -35,3 +40,12 @@ static InputFloatBox itemPriceInput;
 static Item* itemPtr = nullptr;
 
 void StaticVarReset(InputBox& itemNameInput, InputBox& itemIdInput, InputFloatBox& itemPriceInput, string& itemName, string& itemId, float& itemPrice);
+
+static InputBox saleIdInput;
+static InputBox quantityInput;
+static int saleId = 0;
+static vector<string> ordersList;
+static int quantity = 0;
+static float totalPrice = 0;
+
+void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice);

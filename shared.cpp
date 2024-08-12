@@ -19,3 +19,29 @@ void StaticVarReset(InputBox& itemNameInput, InputBox& itemIdInput, InputFloatBo
     itemId = "\0";
     itemPrice = 0;
 }
+
+void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice){
+    quantityInput.Clear();
+    saleIdInput.Clear();
+    itemIdInput.Clear();
+    itemId = "\0";
+    saleId = 0;
+    ordersList.clear();
+    quantity = 0;
+    totalPrice = 0;
+}
+
+void InputBox::Clear()
+{
+    this->inputText[0] = '\0';
+    this->isActive = false;
+    this->textLength = 0;
+}
+
+void InputFloatBox::Clear()
+{
+    this->inputText[0] = {0};
+    this->textLength = 0;
+    this->isActive = false;
+    this->hasDecimalPoint = false;
+}

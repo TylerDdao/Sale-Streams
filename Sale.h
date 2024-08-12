@@ -16,7 +16,7 @@ public:
 	Sale* next;
 
 	Sale();
-	Sale(vector<string> orders, float total);
+	Sale(vector<string> orders, float total, int id);
 	~Sale();
 
 	void LoadSale(vector<string> orders, float total, string time, int id);

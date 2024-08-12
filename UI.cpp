@@ -115,13 +115,6 @@ void DrawIntInputBox(Rectangle rec,const char* boxTitle, int& savedNumb, int Max
     DrawRectangle(rec.x, rec.y, rec.width, rec.height, LIGHTGRAY);
     DrawRectangleLines(rec.x, rec.y, rec.width, rec.height, inputBox.isActive ? RED : BLACK);
     DrawText(boxTitle,rec.x,rec.y-textSize.y, 20, BLACK);
-    if(inputBox.textLength < MaxChars){
-        DrawText(TextFormat("%d/%d", MaxChars - inputBox.textLength, MaxChars),(rec.x+rec.width)-numberSize.x,rec.y-textSize.y, 20, BLACK);
-    }
-    else
-    {
-        DrawText(TextFormat("%d/%d", MaxChars - inputBox.textLength, MaxChars),(rec.x+rec.width)-numberSize.x,rec.y-textSize.y, 20, RED);
-    }
     
     // Handle input only if active
     if (inputBox.isActive) {
@@ -318,6 +311,14 @@ void UIStart(int& current, bool& running, Menu& menu)
         //Config mode is done!!!
         case SaleMain:{
             SaleScreen(current);
+            break;
+        }
+        case S_Add:{
+            SAdd(current, menu);
+            break;
+        }
+        case S_Add_Confirm:{
+            SAddConfirm(current, menu);
             break;
         }
         //Sale subscreen

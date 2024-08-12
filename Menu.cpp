@@ -52,12 +52,10 @@ void Menu::RemoveItem(string id)
 void Menu::EditItem(string id, string newName, string newId, float newPrice)
 {
 	if (item == nullptr) {
-		cerr << "Empty" << endl;
 		return;
 	}
 	Item* ptr = SearchItem(id);
 	if (ptr == nullptr) {
-		cerr << "No ID found" << endl;
 		return;
 	}
 	ptr->SetName(newName);
@@ -66,32 +64,30 @@ void Menu::EditItem(string id, string newName, string newId, float newPrice)
 	return;
 }
 
-int Menu::AddSale(vector<string> orders)
+void Menu::AddSale(vector<string> orders, int id)
 {
 	float total = 0;
 	for (size_t i = 0; i < orders.size(); i++) {
 		float price = GetPriceOf(orders[i]);
 		total += price;
 	}
-	Sale newSale(orders, total);
+	Sale newSale(orders, total, id);
 	Sale* ptr = new Sale(newSale);
 	if (ptr == NULL) {
-		return -1;
+		return;
 	}
 	ptr->next = sale;
 	sale = ptr;
-	return ptr->GetId();
+	return;
 }
 
 void Menu::RemoveSale(int id)
 {
 	if (sale == nullptr) {
-		cerr << "Empty" << endl;
 		return;
 	}
 	Sale* ptr = SearchSale(id);
 	if (ptr == nullptr) {
-		cerr << "No sale found" << endl;
 		return;
 	}
 	if (ptr == sale) {

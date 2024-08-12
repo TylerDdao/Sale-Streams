@@ -118,7 +118,7 @@ void SaleScreen(int& screen){
         DrawButtonWithText(add, WHITE, BLACK, "Add Sale", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, add)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-
+                screen = S_Add;
             }
         }
         DrawButtonWithText(remove, WHITE, BLACK, "Remove Sale", H2, BLACK);
@@ -315,7 +315,7 @@ void CSearch(int &screen, Menu menu)
     Rectangle idBox = {95, 165, 611, 61};
     Rectangle cancelButton = {95, 251, 298, 61};
     Rectangle searchButton = {408, 251, 298, 61};
-    bool isSearch = false;
+
     DrawTextXCenter("Config Mode -> Search Item", 50, H2, BLACK);
     DrawInputBox(idBox, "Item ID", itemId, MAX_ID, itemIdInput);
     DrawButtonWithText(cancelButton, WHITE, BLACK, "Cancel", H2, BLACK);
@@ -328,11 +328,7 @@ void CSearch(int &screen, Menu menu)
     }
     if(CheckCollisionPointRec(mouse, searchButton)){
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            isSearch = true;
-        }
-    }
-    if(isSearch){
-        itemIdInput.inputText[0] = {'\0'};
+            itemIdInput.inputText[0] = {'\0'};
         itemIdInput.textLength = 0;
         itemIdInput.isActive = false;
         Item* ptr;
@@ -347,6 +343,7 @@ void CSearch(int &screen, Menu menu)
                 StaticVarReset(itemNameInput, itemIdInput, itemPriceInput, itemName, itemId, itemPrice);
                 screen = C_Not_Found;
             }
+        }
     }
 }
 
@@ -598,6 +595,88 @@ void CError(int &screen)
     if(CheckCollisionPointRec(mousePosition, returnButton)){
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             screen = ConfigMain;
+        }
+    }
+}
+
+void SAdd(int &screen, Menu menu)
+{
+    Vector2 mouse = GetMousePosition();
+
+    Rectangle itemIdInputBox = {154, 117, 407, 61};
+    Rectangle addItem = {154,188,166, 61};
+    Rectangle quantityInputBox = {583, 117, 61, 61};
+    Rectangle total = {95, 291, 298, 61};
+    Rectangle done = {408, 367, 298, 61};
+    Rectangle cancel = {95, 367, 298, 61};
+    DrawTextXCenter("Sale Mode -> Add Sale", 50, H2, BLACK);
+
+    DrawInputBox(itemIdInputBox, "Item ID", itemId, 10, itemIdInput);
+    DrawIntInputBox(quantityInputBox, "Quanity", quantity, 2, quantityInput);
+    DrawButtonWithText(addItem, WHITE, BLACK, "Add Item", H2, BLACK);
+
+    DrawButtonWithText(done, WHITE, BLACK, "Done", H2, BLACK);
+    DrawButtonWithText(cancel, WHITE, BLACK, "Cancel", H2, BLACK);
+    if(CheckCollisionPointRec(mouse, addItem)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            Item* ptr = menu.SearchItem(itemId);
+            if(ptr != nullptr){
+            for(int i =0; i< quantity;i++){
+                ordersList.push_back(itemId);
+                totalPrice += menu.GetPriceOf(itemId);
+            }
+            quantityInput.Clear();
+            quantity = 0;
+            itemIdInput.Clear();
+            itemId = '\0';
+            }
+        }
+    }
+    if(CheckCollisionPointRec(mouse, cancel)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            StaticVarReset(itemIdInput, saleIdInput, quantityInput, itemId, saleId, ordersList, quantity, totalPrice);
+            screen = SaleMain;
+        }
+    }
+    if(CheckCollisionPointRec(mouse, done)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            StaticVarReset(itemIdInput, saleIdInput, quantityInput, itemId, saleId, ordersList, quantity, totalPrice);
+            screen = S_Add_Confirm;
+        }
+    }
+    DrawDisplayBox(total, WHITE, BLACK, TextFormat("$%.3f", totalPrice), H2, BLACK, "Total");
+}
+
+void SAddConfirm(int &screen, Menu &menu)
+{
+    Vector2 mouse = GetMousePosition();
+    Rectangle preButton = {20, 195, 61, 61};
+    Rectangle nextButton = {720, 195, 61, 61};
+
+    Rectangle cancel ={95, 367, 298, 61};
+    Rectangle confirm = {408,367, 298, 61};
+
+    Rectangle nameBox = {125, 110, 407, 61};
+    Rectangle quantityBox = {599,110,61,61};
+    Rectangle priceBox = {125, 198, 537, 61};
+    Rectangle totalBox = {125, 286, 305, 61};
+    Rectangle numberofItemBox ={601, 286, 61, 61};
+
+    DrawTextXCenter("Sale Mode -> Add Sale", 50, H2, BLACK);
+
+    DrawButtonWithText(cancel, WHITE, BLACK, "Cancel", H2, BLACK);
+    DrawButtonWithText(confirm, GREEN, BLACK, "Confirm", H2, BLACK);
+
+    if(CheckCollisionPointRec(mouse, cancel)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            StaticVarReset(itemIdInput, saleIdInput, quantityInput, itemId, saleId, ordersList, quantity, totalPrice);
+            screen = SaleMain;
+        }
+    }
+    if(CheckCollisionPointRec(mouse, confirm)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            StaticVarReset(itemIdInput, saleIdInput, quantityInput, itemId, saleId, ordersList, quantity, totalPrice);
+            //Add sale
         }
     }
 }
