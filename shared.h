@@ -24,6 +24,8 @@ static string itemName = "\0";
 static string itemId = "\0";
 static float itemPrice = 0;
 
+static string itemId2 = "\0";
+
 static int count = 0;
 
 static InputBox itemNameInput;

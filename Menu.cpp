@@ -36,11 +36,15 @@ void Menu::RemoveItem(string id)
 		return;
 	}
 	Item* ptr2 = item;
-	while (ptr2->next == ptr) 
-	{
+	while(ptr2->next != ptr){
 		ptr2 = ptr2->next;
 	}
-	ptr2->next = ptr->next;
+	if(ptr->next == nullptr){
+	ptr2->next = nullptr;
+	}
+	else{
+		ptr2->next = ptr->next;
+	}
 	delete ptr;
 	return;
 }
@@ -214,9 +218,9 @@ int Menu::GetTotalOfItems()
 	if(item == nullptr){
 		return 0;
 	}
-	int count = 0;
+	int count = 1;
 	Item* ptr = item;
-	while(ptr != nullptr){
+	while(ptr->next != nullptr){
 		count++;
 		ptr = ptr->next;
 	}

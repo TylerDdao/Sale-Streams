@@ -42,6 +42,7 @@ int main(void)
     Menu menu;
     menu.AddItem("t1", "T1", 10);
     menu.AddItem("t2", "T2", 2.50);
+    menu.AddItem("t3", "T3", 2.50);
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;

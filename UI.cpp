@@ -9,8 +9,8 @@ void DrawTextCenter(const char *text, float fontSize, Color textColor)
 }
 
 void DrawTextXCenter(const char* text, int posY, float fontSize, Color textColor){
-    Vector2 textPosition = MeasureTextEx(GetFontDefault(), text, fontSize, 1);
-    DrawText(text, (GetScreenWidth()/2) - (textPosition.x/2),posY, fontSize, textColor);
+    int textWidth = MeasureText(text, fontSize);
+    DrawText(text, (GetScreenWidth() - textWidth)/2 ,posY, fontSize, textColor);
 }
 
 void DrawCurrentTime(int posX, int posY, float fontSize, Color textColor)
@@ -252,6 +252,10 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case C_Remove:{
+            if(menu.GetTotalOfItems() == 0){
+                current = C_Error;
+                break;
+            }
             CRemove(current, menu);
             break;
         }
@@ -259,23 +263,59 @@ void UIStart(int& current, bool& running, Menu& menu)
             CRemoveConfirm(current, menu);
             break;
         }
-        case C_Not_Found:{
-            CNotFount(current);
-            break;
-        }
         case C_Search:{
+            if(menu.GetTotalOfItems() == 0){
+                current = C_Error;
+                break;
+            }
             CSearch(current, menu);
             break;
         }
         case C_Search_Result:{
-            CSearchResult(current);
+            CSearchResult(current, menu);
             break;
         }
         case C_Print:{
+            if(menu.GetTotalOfItems() == 0){
+                current = C_Error;
+                break;
+            }
             CPrint(current, menu);
             break;
         }
-        //Config subscreen
+        case C_Edit:{
+            if(menu.GetTotalOfItems() == 0){
+                current = C_Error;
+                break;
+            }
+            CEdit(current, menu);
+            break;
+        }
+        case C_Edit_Result:{
+            CEditResult(current, menu);
+            break;
+        }
+        case C_Modify:{
+            CModify(current, menu);
+            break;
+        }
+        case C_Delete:{
+            if(menu.GetTotalOfItems() == 0){
+                current = C_Error;
+                break;
+            }
+            CDelete(current, menu);
+            break;
+        }
+        case C_Not_Found:{
+            CNotFount(current);
+            break;
+        }
+        case C_Error:{
+            CError(current);
+            break;
+        }
+        //Config mode is done!!!
         case SaleMain:{
             SaleScreen(current);
             break;
