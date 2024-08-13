@@ -20,7 +20,7 @@ void StaticVarReset(InputBox& itemNameInput, InputBox& itemIdInput, InputFloatBo
     itemPrice = 0;
 }
 
-void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice){
+void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice, string& saleTime){
     quantityInput.Clear();
     saleIdInput.Clear();
     itemIdInput.Clear();
@@ -29,6 +29,7 @@ void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quan
     ordersList.clear();
     quantity = 0;
     totalPrice = 0;
+    saleTime = "\0";
 }
 
 void InputBox::Clear()

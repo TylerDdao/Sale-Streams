@@ -222,3 +222,39 @@ int Menu::GetTotalOfItems()
 	}
     return count;
 }
+
+float Menu::GetTotalPrice(vector<string> orderList)
+{
+	float total = 0;
+	Item* ptr;
+	for(size_t i=0; i<orderList.size();i++){
+		ptr = SearchItem(orderList[i]);
+		total += ptr->GetPrice();
+	}
+    return total;
+}
+
+int Menu::GetQuantity(vector<string> ordersList, string id)
+{
+	int quantity = 0;
+	for(size_t i = 0; i<ordersList.size(); i++){
+		if(ordersList[i] == id){
+			quantity++;
+		}
+	}
+    return quantity;
+}
+
+int Menu::GetTotalOfSales()
+{
+	if(sale == nullptr){
+		return 0;
+	}
+	int count = 1;
+	Sale* ptr = sale;
+	while(ptr->next != nullptr){
+		count++;
+		ptr = ptr->next;
+	}
+    return count;
+}

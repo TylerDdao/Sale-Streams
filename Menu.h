@@ -32,6 +32,9 @@ public:
 	void ClearMemory(); //Done
 
 	int GetTotalOfItems();
+	float GetTotalPrice(vector<string> orderList);
+	int GetQuantity(vector<string> ordersList, string id);
+	int GetTotalOfSales();
 
 	Item* item;
 	Sale* sale;

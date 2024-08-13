@@ -44,8 +44,13 @@ void StaticVarReset(InputBox& itemNameInput, InputBox& itemIdInput, InputFloatBo
 static InputBox saleIdInput;
 static InputBox quantityInput;
 static int saleId = 0;
+static string saleTime = "\0";
 static vector<string> ordersList;
 static int quantity = 0;
 static float totalPrice = 0;
 
-void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice);
+static int prevPage = -1;
+
+static Sale* salePtr = nullptr;
+
+void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice, string& saleTime);

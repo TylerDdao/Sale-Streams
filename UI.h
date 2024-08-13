@@ -5,10 +5,9 @@
 #include "Screen.h"
 #include "Menu.h"
 #include "shared.h"
+#include "File_Handling.h"
 
 using namespace std;
-
-void StaticVarReset();
 
 void DrawTextCenter(const char* text, float fontSize, Color textColor);
 void DrawTextXCenter(const char* text, int posY, float fontSize, Color textColor);

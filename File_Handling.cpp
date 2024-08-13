@@ -35,6 +35,8 @@ bool LoadItems(string fileName, Menu& menu)
 		getline(isLine, price);
 		menu.AddItem(name, id, stof(price));
 	}
+	fp.close();
+	return true;
 }
 
 bool SaveSales(string fileName, Menu menu)

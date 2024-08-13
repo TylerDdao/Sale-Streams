@@ -100,7 +100,6 @@ void DrawInputBox(Rectangle rec, const char* boxTitle, string& savedText, int Ma
 
 void DrawIntInputBox(Rectangle rec,const char* boxTitle, int& savedNumb, int MaxChars, InputBox& inputBox) {
     Vector2 textSize = MeasureTextEx(GetFontDefault(), boxTitle, 20, 1);
-    Vector2 numberSize = MeasureTextEx(GetFontDefault(), TextFormat("%d/%d", MaxChars - inputBox.textLength, MaxChars), 20, 1);;
     // Check if mouse is over the box
     bool mouseOver = CheckCollisionPointRec(GetMousePosition(), rec);
 
@@ -278,7 +277,7 @@ void UIStart(int& current, bool& running, Menu& menu)
         }
         case C_Edit:{
             if(menu.GetTotalOfItems() == 0){
-                current = C_Error;
+                current = C_Not_Found;
                 break;
             }
             CEdit(current, menu);
@@ -321,14 +320,50 @@ void UIStart(int& current, bool& running, Menu& menu)
             SAddConfirm(current, menu);
             break;
         }
+        case S_Search:{
+            SSearch(current, menu);
+            break;
+        }
+        case S_Search_Result:{
+            SSearchResult(current, menu);
+            break;
+        }
+        case S_Print:{
+            if(menu.GetTotalOfSales() == 0){
+                current = S_Not_Found;
+                break;
+            }
+            SPrint(current, menu);
+            break;
+        }
+        case S_Order_List:{
+            SOrderList(current, menu);
+            break;
+        }
+        case S_Not_Found:{
+            SNotFound(current);
+            break;
+        }
+        case S_Items_List:{
+            SItemList(current, menu);
+            break;
+        }
+        case S_Delete:{
+            SDelete(current, menu);
+            break;
+        }
         //Sale subscreen
         case ReportMain:{
             ReportScreen(current);
             break;
         }
         //Report subscreen
-        
+        case Reset:{
+            ResetAll(current, menu);
+            break;
+        }
         case Quit:{
+            Save(menu);
             running = false;
             break;
         }
