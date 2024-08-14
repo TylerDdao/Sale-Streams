@@ -1,4 +1,5 @@
 #include "File_Handling.h"
+#include<bits/stdc++.h>
 
 bool SaveItems(string fileName, Menu menu)
 {
@@ -109,6 +110,33 @@ bool LoadConfig(string fileName, Menu &menu)
 	string line = "\0";
 	getline(fp, line);
 	menu.SetTax(stof(line));
+	fp.close();
+	return true;
+}
+
+bool ExportSummary(string fileName, Menu menu, string date)
+{
+	float subTotal;
+    ofstream fp;
+	fp.open(fileName);
+	vector<int> ids = menu.SearchSale(date);
+	fp <<"Date: "<< month[ExtractMonth(date)] << "/" << ExtractDay(date)<< "/" <<ExtractYear(date) <<endl<<endl;
+	for(size_t i =0; i<ids.size();i++){
+		Sale* ptr = menu.SearchSale(ids[i]);
+		fp << "Sale ID: " << ptr->GetId() <<endl;
+		fp << "Orders List: ";
+		for(size_t k =0; k<ptr->GetOrders().size();k++){
+			fp << menu.GetItemName(ptr->GetOrders()[k]) << ", ";
+		}
+		fp << endl << "Sub Total: $"<< ptr->GetTotal()<<endl;
+		subTotal += ptr->GetTotal();
+		fp << "Tax: $"<<  ptr->GetTotal()*(menu.GetTax()/100)<<endl;
+		fp << "Total: $"<<  ptr->GetTotal() + (ptr->GetTotal()*(menu.GetTax()/100))<<endl;
+		fp << "=========="<<endl;
+	}
+	fp << "Total Order (Before Tax): $"<<subTotal<<endl;
+	fp << "Tax " << menu.GetTax() << "%: $" <<(subTotal*menu.GetTax()/100)<<endl;
+	fp << "Total Order (After Tax): $"<<subTotal - (subTotal*menu.GetTax()/100)<<endl;
 	fp.close();
 	return true;
 }

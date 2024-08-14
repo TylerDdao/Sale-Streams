@@ -58,6 +58,7 @@
 		"*.m": "cpp",
 		"sstream": "cpp",
 		"ctime": "cpp",
-		"fstream": "cpp"
+		"fstream": "cpp",
+		"iomanip": "cpp"
 	}
 }

@@ -28,7 +28,7 @@ void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quan
     saleId = 0;
     ordersList.clear();
     quantity = 0;
-    totalPrice = 0;
+    subTotalPrice = 0;
     saleTime = "\0";
 }
 

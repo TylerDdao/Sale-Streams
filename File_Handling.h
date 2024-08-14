@@ -13,5 +13,7 @@ bool LoadSales(string fileName, Menu& menu); //Done
 bool SaveConfig(string fileName, Menu menu);
 bool LoadConfig(string fileName, Menu& menu);
 
+bool ExportSummary(string fileName, Menu menu, string date);
+
 bool Save(Menu menu); //Done
 bool Load(Menu& menu); //Done

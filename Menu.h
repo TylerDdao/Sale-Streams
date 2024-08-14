@@ -25,6 +25,7 @@ public:
 	float GetPriceOf(string id); //Done
 	Item* SearchItem(string id); //Done
 	Sale* SearchSale(int id); //Done
+	vector<int> SearchSale(string date);
 
 	bool ItemIdVerification(string id); //Done
 
@@ -33,6 +34,7 @@ public:
 	void ClearMemory(); //Done
 
 	int GetNumberOfItem();
+	string GetItemName(string id);
 	float GetTotalPrice(vector<string> orderList);
 	int GetQuantity(vector<string> ordersList, string id);
 	int GetNumberOfSale();

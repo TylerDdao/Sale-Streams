@@ -1,0 +1,35 @@
+Date: AUG/14/2024
+
+Sale ID: 25149
+Orders List: Brown Cofee, Black Coffee, 
+Sub Total: $7.58
+Tax: $0.9854
+Total: $8.5654
+==========
+Sale ID: 13308
+Orders List: Java Chip Fapuchino, 
+Sub Total: $10.99
+Tax: $1.4287
+Total: $12.4187
+==========
+Sale ID: 12668
+Orders List: Java Chip Fapuchino, 
+Sub Total: $10.99
+Tax: $1.4287
+Total: $12.4187
+==========
+Sale ID: 10549
+Orders List: Black Coffee, Black Coffee, 
+Sub Total: $6.58
+Tax: $0.8554
+Total: $7.4354
+==========
+Sale ID: 12579
+Orders List: Java Chip Fapuchino, Black Coffee, 
+Sub Total: $14.28
+Tax: $1.8564
+Total: $16.1364
+==========
+Total Order (Before Tax): $50.42
+Tax 13%: $6.5546
+Total Order (After Tax): $43.8654

@@ -49,7 +49,7 @@ static int saleId = 0;
 static string saleTime = "\0";
 static vector<string> ordersList;
 static int quantity = 0;
-static float totalPrice = 0;
+static float subTotalPrice = 0;
 static int prevPage = -1;
 
 static Sale* salePtr = nullptr;

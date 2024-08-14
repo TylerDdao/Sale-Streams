@@ -1,5 +1,5 @@
-Java Chip Fapuchino:F1:10.99
-Salt Coffee:Coffee 3:5.99
-Brown Cofee:Coffee 2:4.29
-Black Coffee:Coffee 1:3.29
 t1:T1:10
+Black Coffee:Coffee 1:3.29
+Brown Cofee:Coffee 2:4.29
+Salt Coffee:Coffee 3:5.99
+Java Chip Fapuchino:F1:10.99

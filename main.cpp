@@ -47,6 +47,9 @@ int main(void)
     {
         UIStart(current, running, menu);
     }
+    StaticVarReset(itemNameInput, itemIdInput, itemPriceInput, itemName, itemId, itemPrice);
+    reportVar.Clear();
+    StaticVarReset(itemIdInput, saleIdInput, quantityInput, itemId, saleId, ordersList, quantity, subTotalPrice, saleTime);
     UnloadImage(icon);
     CloseWindow();
     return 0;

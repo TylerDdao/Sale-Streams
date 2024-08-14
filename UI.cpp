@@ -361,6 +361,14 @@ void UIStart(int& current, bool& running, Menu& menu)
             ReodDisplay(current, menu);
             break;
         }
+        case R_Export:{
+            RExport(current, menu);
+            break;
+        }
+        case R_ExportInfo:{
+            RExportInfo(current);
+            break;
+        }
         case R_Tax_Setting:{
             TaxSetting(current, menu);
             break;

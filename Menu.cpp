@@ -159,6 +159,22 @@ Sale* Menu::SearchSale(int id)
 	return ptr;
 }
 
+vector<int> Menu::SearchSale(string date)
+{
+	vector<int> ids;
+	if(sale == nullptr){
+		return ids;
+	}
+	Sale* ptr = sale;
+	while(ptr != nullptr){
+		if(ExtractDay(ptr->GetTime()) == ExtractDay(date) && ExtractMonth(ptr->GetTime()) == ExtractMonth(date) && ExtractYear(ptr->GetTime()) == ExtractYear(date)){
+			ids.push_back(ptr->GetId());
+		}
+		ptr = ptr->next;
+	}
+	return ids;
+}
+
 bool Menu::ItemIdVerification(string id)
 {
 	if (item == nullptr) {
@@ -221,6 +237,21 @@ int Menu::GetNumberOfItem()
 		ptr = ptr->next;
 	}
     return count;
+}
+
+string Menu::GetItemName(string id)
+{
+	if(item == nullptr){
+		return "\0";
+	}
+	Item* ptr = item;
+	while (ptr!= nullptr){
+		if(ptr->GetId() == id){
+			break;
+		}
+		ptr = ptr->next;
+	}
+	return ptr->GetName();
 }
 
 float Menu::GetTotalPrice(vector<string> orderList)
