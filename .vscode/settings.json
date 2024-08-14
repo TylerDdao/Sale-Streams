@@ -57,6 +57,7 @@
 		"typeinfo": "cpp",
 		"*.m": "cpp",
 		"sstream": "cpp",
-		"ctime": "cpp"
+		"ctime": "cpp",
+		"fstream": "cpp"
 	}
 }

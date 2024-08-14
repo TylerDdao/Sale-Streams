@@ -1,7 +1,4 @@
 #include "UI.h"
-
-const char* month[] = { "", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
-
 void DrawTextCenter(const char *text, float fontSize, Color textColor)
 {
     Vector2 textPosition = MeasureTextEx(GetFontDefault(), text, fontSize, 2);
@@ -244,7 +241,7 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case C_Remove:{
-            if(menu.GetTotalOfItems() == 0){
+            if(menu.GetNumberOfItem() == 0){
                 current = C_Error;
                 break;
             }
@@ -256,7 +253,7 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case C_Search:{
-            if(menu.GetTotalOfItems() == 0){
+            if(menu.GetNumberOfItem() == 0){
                 current = C_Error;
                 break;
             }
@@ -268,7 +265,7 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case C_Print:{
-            if(menu.GetTotalOfItems() == 0){
+            if(menu.GetNumberOfItem() == 0){
                 current = C_Error;
                 break;
             }
@@ -276,7 +273,7 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case C_Edit:{
-            if(menu.GetTotalOfItems() == 0){
+            if(menu.GetNumberOfItem() == 0){
                 current = C_Not_Found;
                 break;
             }
@@ -292,7 +289,7 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case C_Delete:{
-            if(menu.GetTotalOfItems() == 0){
+            if(menu.GetNumberOfItem() == 0){
                 current = C_Error;
                 break;
             }
@@ -329,7 +326,7 @@ void UIStart(int& current, bool& running, Menu& menu)
             break;
         }
         case S_Print:{
-            if(menu.GetTotalOfSales() == 0){
+            if(menu.GetNumberOfSale() == 0){
                 current = S_Not_Found;
                 break;
             }
@@ -352,9 +349,20 @@ void UIStart(int& current, bool& running, Menu& menu)
             SDelete(current, menu);
             break;
         }
-        //Sale subscreen
         case ReportMain:{
             ReportScreen(current);
+            break;
+        }
+        case R_Eod:{
+            REod(current);
+            break;
+        }
+        case R_EodDisplay:{
+            ReodDisplay(current, menu);
+            break;
+        }
+        case R_Tax_Setting:{
+            TaxSetting(current, menu);
             break;
         }
         //Report subscreen

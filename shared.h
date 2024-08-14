@@ -7,6 +7,8 @@ using namespace std;
 #define MAX_CHARS 50
 #define MAX_ID 10
 
+static char* month[] = { "", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+
 class InputBox {
     public:
     char inputText[MAX_CHARS + 1] = {0};
@@ -48,9 +50,25 @@ static string saleTime = "\0";
 static vector<string> ordersList;
 static int quantity = 0;
 static float totalPrice = 0;
-
 static int prevPage = -1;
 
 static Sale* salePtr = nullptr;
+
+static InputFloatBox taxInput;
+
+class ReportVar{
+    public:
+    int day;
+    int month;
+    int year;
+
+    InputBox dayInput;
+    InputBox monthInput;
+    InputBox yearInput;
+
+    void Clear();
+};
+
+static ReportVar reportVar;
 
 void StaticVarReset(InputBox& itemIdInput, InputBox& saleIdInput, InputBox& quantityInput, string& itemId, int& saleId, vector<string>& ordersList, int& quantity, float& totalPrice, string& saleTime);

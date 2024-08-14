@@ -147,8 +147,8 @@ void SaleScreen(int& screen){
 
 void ReportScreen(int& screen){
         Rectangle eod = {251, 109, 298, 61};
-        Rectangle ts = {251, 195, 298, 61};
-        Rectangle es = {251, 281, 298, 61};
+        Rectangle es = {251, 195, 298, 61};
+        Rectangle config = {251, 195, 298, 61};
 
         Rectangle quit = {251, 367, 298, 61};
         Vector2 mousePosition = GetMousePosition();
@@ -159,21 +159,22 @@ void ReportScreen(int& screen){
         DrawButtonWithText(eod, WHITE, BLACK, "End-of-day Summary", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, eod)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-
-            }
-        }
-        DrawButtonWithText(ts, WHITE, BLACK, "Total Sales Today", H2, BLACK);
-        if(CheckCollisionPointRec(mousePosition, ts)){
-            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            
+                screen = R_Eod;
             }
         }
         DrawButtonWithText(es, WHITE, BLACK, "Export Summary", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, es)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            
+                
             }
         }
+        DrawButtonWithText(config, WHITE, BLACK, "Tax Setting", H2, BLACK);
+        if(CheckCollisionPointRec(mousePosition, config)){
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            screen = R_Tax_Setting;
+            }
+        }
+
         DrawButtonWithText(quit, WHITE, BLACK, "Return", H2, BLACK);
         if(CheckCollisionPointRec(mousePosition, quit)){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
@@ -521,7 +522,7 @@ void CPrint(int &screen, Menu &menu)
     Rectangle returnButton = {251, 367, 298, 61};
 
     int totalItem = 0;
-    totalItem = menu.GetTotalOfItems();
+    totalItem = menu.GetNumberOfItem();
 
     itemPtr = menu.item;
     for(int i =0; i<count; i++){
@@ -810,6 +811,7 @@ void SSearchResult(int &screen, Menu &menu)
 
 void SOrderList(int& screen, Menu menu)
 {
+    static int orderCount = 0;
     Vector2 mouse = GetMousePosition();
 
     Rectangle nameBox = {95, 109, 611, 61};
@@ -824,11 +826,11 @@ void SOrderList(int& screen, Menu menu)
     int totalItem = 0;
     totalItem = ordersList.size();
 
-    itemPtr = menu.SearchItem(ordersList[count]);
+    itemPtr = menu.SearchItem(ordersList[orderCount]);
     itemName = itemPtr->GetName();
     itemId = itemPtr->GetId();
     itemPrice = itemPtr->GetPrice();
-    DrawTextXCenter(TextFormat("Sale Mode -> %d orders list [%d/%d]", saleId,count+1, totalItem), 50, H2, BLACK);
+    DrawTextXCenter(TextFormat("Sale Mode -> %d orders list [%d/%d]", saleId,orderCount+1, totalItem), 50, H2, BLACK);
     DrawDisplayBox(nameBox, WHITE, BLACK, TextFormat("%s", itemName.c_str()), H2, BLACK, "Name");
     DrawDisplayBox(idBox, WHITE, BLACK, TextFormat("%s", itemId.c_str()), H2, BLACK, "ID");
     DrawDisplayBox(priceBox, WHITE, BLACK, TextFormat("$%.3f", itemPrice), H2, BLACK, "Price");
@@ -838,20 +840,20 @@ void SOrderList(int& screen, Menu menu)
     DrawButtonWithText(preButton, WHITE, BLACK, "<-", H2, BLACK);
 
     if(CheckCollisionPointRec(mouse, nextButton)){
-        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && count+1 < totalItem){
-            count++;
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && orderCount+1 < totalItem){
+            orderCount++;
         }
     }
     if(CheckCollisionPointRec(mouse, preButton)){
-        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && count+1 > 1){
-            count--;
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && orderCount+1 > 1){
+            orderCount--;
         }
     }    
 
     if(CheckCollisionPointRec(mouse, returnButton)){
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             StaticVarReset(itemNameInput, itemIdInput, itemPriceInput, itemName, itemId, itemPrice);
-            count = 0;
+            orderCount = 0;
             itemPtr = nullptr;
             screen = prevPage;
         }
@@ -873,7 +875,7 @@ void SPrint(int &screen, Menu menu)
     Rectangle returnButton = {251, 367, 298, 61};
 
     int totalSale = 0;
-    totalSale = menu.GetTotalOfSales();
+    totalSale = menu.GetNumberOfSale();
 
     salePtr = menu.sale;
     for(int i =0; i<count; i++){
@@ -978,6 +980,7 @@ void SNotFound(int &screen)
 
 void SItemList(int &screen, Menu menu)
 {
+
     Vector2 mouse = GetMousePosition();
 
     Rectangle nameBox = {95, 109, 611, 61};
@@ -990,7 +993,7 @@ void SItemList(int &screen, Menu menu)
     Rectangle returnButton = {251, 367, 298, 61};
 
     int totalItem = 0;
-    totalItem = menu.GetTotalOfItems();
+    totalItem = menu.GetNumberOfItem();
 
     itemPtr = menu.item;
     for(int i =0; i<count; i++){
@@ -1025,6 +1028,99 @@ void SItemList(int &screen, Menu menu)
             count = 0;
             itemPtr = nullptr;
             screen = prevPage;
+        }
+    }
+}
+
+void REod(int &screen)
+{
+    Vector2 mouse = GetMousePosition();
+    DrawTextXCenter("Report Mode -> End-of-Day Summary", 50, H2, BLACK);
+    
+    Rectangle dayBox = {291,164, 61,61};
+    Rectangle monthBox = {370,164,61,61};
+    Rectangle yearBox = {449,164,61,61};
+
+    Rectangle showSummary = {408, 367,298,61};
+    Rectangle cancel = {95,367,298,61};
+
+    DrawText("/", 357,181,H2,BLACK);
+    DrawText("/",436,181,H2,BLACK);
+    DrawButtonWithText(showSummary, WHITE, BLACK, "Show Summary", H2,BLACK);
+    DrawButtonWithText(cancel, WHITE, BLACK, "Cancel", H2,BLACK);
+    DrawIntInputBox(dayBox,"DD",reportVar.day,2,reportVar.dayInput);
+    DrawIntInputBox(monthBox,"MM",reportVar.month,2,reportVar.monthInput);
+    DrawIntInputBox(yearBox,"YYYY",reportVar.year,4,reportVar.yearInput);
+
+    if(CheckCollisionPointRec(mouse, cancel)){
+        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            reportVar.Clear();
+            screen = ReportMain;
+        }
+    }
+
+    if(CheckCollisionPointRec(mouse, showSummary)){
+        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            screen = R_EodDisplay;
+        }
+    }
+}
+
+void ReodDisplay(int &screen, Menu menu)
+{
+    Vector2 mouse = GetMousePosition();
+    DrawTextXCenter(TextFormat("Report Mode -> End-of-Day Summary: %s/%d/%d",month[reportVar.month], reportVar.day, reportVar.year), 50, H2, BLACK);
+
+    Rectangle numberOfSaleBox = {125,110,537,61};
+    Rectangle totalBox = {125,198,537,61};
+    Rectangle saleAfterTaxBox = {125,286,305,61};
+    Rectangle TaxBox = {469,286,193,61};
+
+    Rectangle cancel = {95,367,298,61};
+
+    float total = menu.GetTotalSale(reportVar.day, reportVar.month, reportVar.year);
+
+    DrawDisplayBox(numberOfSaleBox, WHITE, BLACK, TextFormat("%d", menu.GetNumberOfSale(reportVar.day, reportVar.month, reportVar.year)), H2, BLACK, "Number of Sale");
+    DrawDisplayBox(totalBox, WHITE,BLACK, TextFormat("$%.3f", total), H2, BLACK, "Total Sale");
+    DrawDisplayBox(saleAfterTaxBox, WHITE, BLACK, TextFormat("$%.3f", total - (total*(menu.GetTax()/100))), H2, BLACK, "Sale after Tax");
+    DrawDisplayBox(TaxBox, WHITE, BLACK, TextFormat("$%.2f", total*(menu.GetTax()/100)), H2, BLACK, TextFormat("%.2f%%", menu.GetTax()));
+
+
+    DrawButtonWithText(cancel, WHITE, BLACK, "Cancel", H2,BLACK);
+    if(CheckCollisionPointRec(mouse, cancel)){
+        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            reportVar.Clear();
+            screen = ReportMain;
+        }
+    }
+}
+
+void TaxSetting(int &screen, Menu& menu)
+{
+    Vector2 mouse = GetMousePosition();
+    DrawTextXCenter("Report Mode -> Tax Setting", 50, H2, BLACK);
+    DrawTextXCenter(TextFormat("Current Tax Rate: %.2f%%", menu.GetTax()), 77, H2, BLACK);
+
+    Rectangle taxBox = {132, 181, 537, 61};
+    Rectangle cancelButton = {95, 367, 298, 61};
+    Rectangle saveButton = {408, 367, 298, 61};
+    float taxTemp;
+    DrawFloatInputBox(taxBox, "Tax Rate", taxTemp, taxInput);
+    DrawButtonWithText(cancelButton, WHITE, BLACK, "Cancel", H2, BLACK);
+    DrawButtonWithText(saveButton, WHITE, BLACK, "Save", H2, BLACK);
+    
+    if(CheckCollisionPointRec(mouse, saveButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            menu.SetTax(taxTemp);
+            taxInput.Clear();
+            screen = ReportMain;
+        }
+    }
+
+    if(CheckCollisionPointRec(mouse, cancelButton)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            taxInput.Clear();
+            screen = ReportMain;
         }
     }
 }

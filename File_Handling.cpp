@@ -49,7 +49,7 @@ bool SaveSales(string fileName, Menu menu)
 	}
 	while (ptr != nullptr) {
 		fp << ptr->GetId() << ";" << ptr->GetTime() << ";"<<ptr->GetTotal()<<";";
-		for (int i = 0; i < ptr->GetOrders().size();i++) {
+		for (size_t i = 0; i < ptr->GetOrders().size();i++) {
 			fp << ptr->GetOrders()[i] << ",";
 		}
 
@@ -87,9 +87,35 @@ bool LoadSales(string fileName, Menu& menu)
 	return true;
 }
 
+bool SaveConfig(string fileName, Menu menu)
+{
+	ofstream fp;
+	fp.open(fileName);
+	if (!fp.is_open()) {
+		return false;
+	}
+		fp << menu.GetTax();
+	fp.close();
+	return true;
+}
+
+bool LoadConfig(string fileName, Menu &menu)
+{
+	ifstream fp;
+	fp.open(fileName);
+	if (!fp.is_open()) {
+		return false;
+	}
+	string line = "\0";
+	getline(fp, line);
+	menu.SetTax(stof(line));
+	fp.close();
+	return true;
+}
+
 bool Save(Menu menu)
 {
-	if (SaveItems("Items.txt", menu) == false || SaveSales("Sales.txt", menu) == false) {
+	if (SaveItems("Items.txt", menu) == false || SaveSales("Sales.txt", menu) == false || SaveConfig("Config.txt", menu)) {
 		return false;
 	}
 	return true;
@@ -97,7 +123,7 @@ bool Save(Menu menu)
 
 bool Load(Menu& menu)
 {
-	if (LoadItems("Items.txt", menu) == false || LoadSales("Sales.txt", menu) == false) {
+	if (LoadItems("Items.txt", menu) == false || LoadSales("Sales.txt", menu) == false|| LoadConfig("Config.txt", menu)) {
 		return false;
 	}
 	return true;

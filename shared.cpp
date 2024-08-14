@@ -46,3 +46,13 @@ void InputFloatBox::Clear()
     this->isActive = false;
     this->hasDecimalPoint = false;
 }
+
+void ReportVar::Clear()
+{
+    this->day = 0;
+    this->month=0;
+    this->year =0;
+    this->dayInput.Clear();
+    this->monthInput.Clear();
+    this->yearInput.Clear();
+}

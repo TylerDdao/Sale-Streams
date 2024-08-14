@@ -209,7 +209,7 @@ void Menu::ClearMemory()
 	}
 }
 
-int Menu::GetTotalOfItems()
+int Menu::GetNumberOfItem()
 {
 	if(item == nullptr){
 		return 0;
@@ -245,7 +245,7 @@ int Menu::GetQuantity(vector<string> ordersList, string id)
     return quantity;
 }
 
-int Menu::GetTotalOfSales()
+int Menu::GetNumberOfSale()
 {
 	if(sale == nullptr){
 		return 0;
@@ -257,4 +257,66 @@ int Menu::GetTotalOfSales()
 		ptr = ptr->next;
 	}
     return count;
+}
+
+float Menu::GetTotalSale(int day, int month, int year)
+{
+    float total = 0;
+	if(sale == nullptr){
+		return 0;
+	}
+	Sale* ptr = sale;
+	while(ptr != nullptr){
+		if(ExtractDay(ptr->GetTime()) == day && ExtractMonth(ptr->GetTime()) == month && ExtractYear(ptr->GetTime()) == year){
+			total = total + ptr->GetTotal();
+		}
+		ptr = ptr->next;
+	}
+	return total;
+}
+
+int Menu::GetNumberOfItemSold(string id, int day, int month, int year)
+{
+    int count = 0;
+	if(sale == nullptr){
+		return 0;
+	}
+	Sale* ptr = sale;
+	while(ptr != nullptr){
+		if(ExtractDay(ptr->GetTime()) == day && ExtractMonth(ptr->GetTime()) == month && ExtractYear(ptr->GetTime()) == year){
+		for(size_t i = 0; i<ptr->GetOrders().size(); i++){
+			if(ptr->GetOrders()[i] == id){
+				count ++;
+			}
+		}
+		}
+		ptr = ptr->next;
+	}
+	return count;
+}
+
+int Menu::GetNumberOfSale(int day, int month, int year)
+{
+    int count = 0;
+	if(sale == nullptr){
+		return 0;
+	}
+	Sale* ptr = sale;
+	while(ptr != nullptr){
+		if(ExtractDay(ptr->GetTime()) == day && ExtractMonth(ptr->GetTime()) == month && ExtractYear(ptr->GetTime()) == year){
+			count ++;
+		}
+		ptr = ptr->next;
+	}
+	return count;
+}
+
+void Menu::SetTax(float tax)
+{
+	this->tax = tax;
+}
+
+float Menu::GetTax()
+{
+    return tax;
 }

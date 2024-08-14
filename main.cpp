@@ -26,18 +26,9 @@
 #include "TimeModule.h"
 #include "Menu.h"
 
-    // Rectangle config = {251, 87,298, 61};
-    // Rectangle sale = {251, 158, 298, 61};
-    // Rectangle report = {251, 229, 298, 61};
-    // Rectangle reset = {251, 300, 298, 61};
-    // Rectangle quit = {251, 371, 298, 61};
-
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-
 int main(void)
 {
+    Image icon = LoadImage("sales.png");
     srand(time(NULL));
     Menu menu;
     Load(menu);
@@ -46,20 +37,17 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
     // typedef enum Screen {INTRO = 0, HOME} SCREEN;
-    InitWindow(screenWidth, screenHeight, "Screen");
+    InitWindow(screenWidth, screenHeight, "Sale Streams v1.0");
     bool running = true;
-
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    SetWindowIcon(icon);
+    SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
-    // Main game loop
     int current = Home;
-    while (running)    // Detect window close button or ESC key
+    while (running)
     {
         UIStart(current, running, menu);
     }
-    // cout << name<<endl;
-    // cout << id<<endl;
-    // cout << price<<endl;
+    UnloadImage(icon);
     CloseWindow();
     return 0;
 }

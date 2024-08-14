@@ -11,7 +11,8 @@
 
 typedef enum Screen {Home = 0, ConfigMain, SaleMain, ReportMain, Reset, Quit, 
 C_Add, C_Remove, C_Remove_Confirm, C_Edit, C_Edit_Result, C_Modify, C_Search, C_Search_Result, C_Not_Found, C_Print, C_Delete, Search_Display_Item, C_Error,
-S_Add, S_Add_Confirm, S_Remove, S_Remove_Confirm, S_Search, S_Search_Result, S_Print, S_Order_List, S_Not_Found, S_Error, S_Items_List, S_Delete} SCREEN;
+S_Add, S_Add_Confirm, S_Remove, S_Remove_Confirm, S_Search, S_Search_Result, S_Print, S_Order_List, S_Not_Found, S_Error, S_Items_List, S_Delete,
+R_Eod, R_EodDisplay, R_Tax_Setting} SCREEN;
 
 void HomeScreen(int& screen);
 void ConfigScreen(int& screen);
@@ -47,4 +48,8 @@ void SError(int& screen);
 void SNotFound(int&screen);
 void SItemList(int& screen, Menu menu);
 
+//Report mode
+void REod(int& screen);
+void ReodDisplay(int&screen, Menu menu);
+void TaxSetting(int& screen, Menu& menu);
 

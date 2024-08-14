@@ -9,6 +9,7 @@ using namespace std;
 
 class Menu
 {
+	float tax;
 public:
 	Menu();
 	~Menu();
@@ -31,10 +32,17 @@ public:
 	void ClearItems(); //Done
 	void ClearMemory(); //Done
 
-	int GetTotalOfItems();
+	int GetNumberOfItem();
 	float GetTotalPrice(vector<string> orderList);
 	int GetQuantity(vector<string> ordersList, string id);
-	int GetTotalOfSales();
+	int GetNumberOfSale();
+	
+	float GetTotalSale(int day, int month, int year);
+	int GetNumberOfItemSold(string id, int day, int month, int year);
+	int GetNumberOfSale(int day, int month, int year);
+
+	void SetTax(float tax);
+	float GetTax();
 
 	Item* item;
 	Sale* sale;
